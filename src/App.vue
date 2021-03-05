@@ -1,18 +1,54 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <MatchupTitle :teams="teams" />
+    <GameStatus :teams="teams" />
+    <ScoreCard
+      :score="teams[0].score"
+      @pointUp="updateScore(teams[0], 1)"
+      @pointDown="updateScore(teams[0], -1)"
+    />
+    <ScoreCard
+      :score="teams[1].score"
+      @pointUp="updateScore(teams[1], 1)"
+      @pointDown="updateScore(teams[1], -1)"
+    />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import MatchupTitle from "./components/MatchupTitle";
+import ScoreCard from "./components/ScoreCard";
+import GameStatus from "./components/GameStatus";
 
 export default {
-  name: "App",
   components: {
-    HelloWorld
-  }
+    MatchupTitle,
+    ScoreCard,
+    GameStatus,
+  },
+  data() {
+    return {
+      teams: [
+        {
+          name: "Team 1",
+          score: 0,
+        },
+        {
+          name: "Team 2",
+          score: 0,
+        },
+      ],
+    };
+  },
+  methods: {
+    updateScore(team, points) {
+      const newScore = team.score + points;
+
+      if (newScore >= 0) {
+        team.score = newScore;
+      }
+    },
+  },
 };
 </script>
 
